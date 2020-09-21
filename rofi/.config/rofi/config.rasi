@@ -1,0 +1,6 @@
+configuration {
+  theme: "gruvbox-dark-hard";
+  show-icons: true;
+}
+
+/* vim:ft=css
