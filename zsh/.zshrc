@@ -17,6 +17,7 @@ alias r="ranger"
 alias ls="ls --color"
 alias pbcopy="xclip -selection clipboard"
 alias pbpaste="xclip -selection clipboard -o"
+alias lg="lazygit"
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
