@@ -5,9 +5,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Path variables
 export PATH=~/go/bin:$PATH
 export EDITOR="nvim"
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 # Aliases
 alias vim="nvim"
@@ -18,6 +18,7 @@ alias ls="ls --color"
 alias pbcopy="xclip -selection clipboard"
 alias pbpaste="xclip -selection clipboard -o"
 alias lg="lazygit"
+alias rg="rg --hidden --glob '!.git'"
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
