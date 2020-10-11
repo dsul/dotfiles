@@ -8,6 +8,7 @@ fi
 export PATH=~/go/bin:$PATH
 export EDITOR="nvim"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export CLASSPATH=$CLASSPATH:~/algs4/algs4.jar
 
 # Aliases
 alias vim="nvim"
