@@ -10,8 +10,8 @@ set $right_monitor DP-4
 font pango:Inter 11
 
 # Gaps
-gaps outer 5
-gaps inner 8
+gaps outer 3
+gaps inner 6
 new_window pixel 3
 
 ######### COLORS ##########
