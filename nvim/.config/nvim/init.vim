@@ -5,7 +5,7 @@ set hidden
 set nobackup
 set nowritebackup
 set cmdheight=2
-set updatetime=100
+set updatetime=20
 set shortmess+=c
 set smartindent
 set tabstop=2
@@ -16,6 +16,7 @@ set ignorecase
 set smartcase
 set incsearch
 set showmatch
+set matchtime=0
 
 map Y y$
 nnoremap <C-p> :Files<Cr>
