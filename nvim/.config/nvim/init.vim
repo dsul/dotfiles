@@ -21,8 +21,8 @@ set matchtime=0
 map Y y$
 nnoremap <C-p> :Files<Cr>
 nnoremap <C-i> :Rg<Cr>
-" <esc> to clear search highlights
-nnoremap <esc> :noh<return><esc>
+" clear search highlights
+nnoremap \\ :noh<return>
 
 let g:airline_theme='gruvbox'
 call plug#begin('~/.vim/plugged')
