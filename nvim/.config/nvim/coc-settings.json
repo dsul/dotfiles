@@ -1,4 +1,6 @@
 {
   "eslint.filetypes": ["javascript", "typescript", "typescriptreact", "javascriptreact"],
-  "javascript.suggestionActions.enabled": false
+  "javascript.suggestionActions.enabled": false,
+  "python.linting.pep8enabled": true,
+  "python.pythonPath": "/usr/bin/python3"
 }
