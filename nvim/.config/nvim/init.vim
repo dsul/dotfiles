@@ -18,11 +18,22 @@ set incsearch
 set showmatch
 set matchtime=0
 
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
+" Highlight the symbol and its references when hovering cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Apply AutoFix to problem on the current line
+nmap <leader>af <Plug>(coc-codeaction-selected)
+
 map Y y$
-nnoremap <C-p> :Files<Cr>
-nnoremap <C-i> :Rg<Cr>
+nnoremap <leader>p :Files<Cr>
+nnoremap <leader>f :Rg<Cr>
 " clear search highlights
 nnoremap \\ :noh<return>
+" Rename symbols
+nmap <leader>rn <Plug>(coc-rename)
 
 let g:airline_theme='gruvbox'
 call plug#begin('~/.vim/plugged')
