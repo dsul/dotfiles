@@ -33,6 +33,11 @@ nnoremap . .<c-g>u
 nnoremap ! !<c-g>u
 nnoremap ? ?<c-g>u
 
+" Keep cursor centered on searching and line joins
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+
 " Behave
 map Y y$
 
