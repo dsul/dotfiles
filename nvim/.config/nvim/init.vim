@@ -28,10 +28,10 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>af <Plug>(coc-codeaction-selected)
 
 " Breakpoints for undoing
-nnoremap , ,<c-g>u
-nnoremap . .<c-g>u
-nnoremap ! !<c-g>u
-nnoremap ? ?<c-g>u
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
 
 " Keep cursor centered on searching and line joins
 nnoremap n nzzzv
