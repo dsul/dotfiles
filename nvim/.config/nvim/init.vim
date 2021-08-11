@@ -27,11 +27,24 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Apply AutoFix to problem on the current line
 nmap <leader>af <Plug>(coc-codeaction-selected)
 
+" Breakpoints for undoing
+nnoremap , ,<c-g>u
+nnoremap . .<c-g>u
+nnoremap ! !<c-g>u
+nnoremap ? ?<c-g>u
+
+" Behave
 map Y y$
+
+" Search for file
 nnoremap <leader>p :Files<Cr>
+
+" Search within files
 nnoremap <leader>f :Rg<Cr>
+
 " clear search highlights
 nnoremap \\ :noh<return>
+
 " Rename symbols
 nmap <leader>rn <Plug>(coc-rename)
 
