@@ -52,6 +52,8 @@ nnoremap \\ :noh<return>
 
 " Rename symbols
 nmap <leader>rn <Plug>(coc-rename)
+" includes refactor window
+nmap <leader>rf <Plug>(coc-refactor)
 
 let g:airline_theme='gruvbox'
 call plug#begin('~/.vim/plugged')
