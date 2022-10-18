@@ -55,6 +55,10 @@ nmap <leader>rn <Plug>(coc-rename)
 " includes refactor window
 nmap <leader>rf <Plug>(coc-refactor)
 
+" Markdown preview
+nmap <leader>mp <Plug>MarkdownPreview
+nmap <leader>mps <Plug>MarkdownPreviewStop
+
 let g:airline_theme='gruvbox'
 call plug#begin('~/.vim/plugged')
 
@@ -66,6 +70,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
 
 call plug#end()
 
