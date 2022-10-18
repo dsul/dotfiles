@@ -12,5 +12,9 @@
       "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
       "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"]
     }
-  }
+  },
+  "rust-analyzer.diagnostics.enable": true,
+  "rust-analyzer.inlayHints.enable": true,
+  "rust-analyzer.hover.links.enable": true,
+  "rust-analyzer.inlayHints.typeHints.enable": true
 }
