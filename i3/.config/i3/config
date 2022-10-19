@@ -170,7 +170,7 @@ bindsym $mod+r mode "resize"
 
 bindsym $mod+b exec firefox
 
-bindsym Control+Shift+l exec i3lock
+bindsym Control+Shift+l exec "${HOME}/git/i3lock-multimonitor/lock -i ${HOME}/Pictures/wallpapers/background.png"
 
 # Screenshot
 bindsym $mod+Shift+S exec flameshot gui
