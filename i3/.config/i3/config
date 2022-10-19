@@ -52,7 +52,7 @@ bindsym $mod+t exec kitty -e ranger
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec rofi -show run
+bindsym $mod+d exec rofi -sort -show run
 
 # change focus
 bindsym $mod+h focus left
