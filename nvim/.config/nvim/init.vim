@@ -18,11 +18,20 @@ set incsearch
 set showmatch
 set matchtime=0
 
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 nnoremap <SPACE> <Nop>
 let mapleader=" "
 
 " Highlight the symbol and its references when hovering cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
 
 " Apply AutoFix to problem on the current line
 nmap <leader>af <Plug>(coc-codeaction-selected)
@@ -58,6 +67,19 @@ nmap <leader>rf <Plug>(coc-refactor)
 " Markdown preview
 nmap <leader>mp <Plug>MarkdownPreview
 nmap <leader>mps <Plug>MarkdownPreviewStop
+
+" Select autocomplete suggestions with TAB
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 let g:airline_theme='gruvbox'
 call plug#begin('~/.vim/plugged')
