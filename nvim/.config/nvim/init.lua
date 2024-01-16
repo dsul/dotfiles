@@ -19,6 +19,21 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 
+-- Only have one of virtual_text or lsp_lines enabled at a time
+function ToggleLspLines()
+    -- Toggling the lsp_lines
+    require("lsp_lines").toggle()
+
+    -- Checking the current state and setting virtual_text
+    if vim.diagnostic.config().virtual_lines then
+        -- If virtual_lines is on, turn off virtual_text
+        vim.diagnostic.config({ virtual_text = false })
+    else
+        -- If virtual_lines is off, turn on virtual_text
+        vim.diagnostic.config({ virtual_text = true })
+    end
+end
+
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure plugins ]]
@@ -31,7 +46,7 @@ require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Never know
-  'mbbill/undotree',
+  --'mbbill/undotree',
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -39,6 +54,14 @@ require('lazy').setup({
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+
+  {
+    'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+    config = function()
+      vim.diagnostic.config({ virtual_lines = false })
+      require("lsp_lines").setup()
+    end,
+  },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -52,11 +75,97 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
- 
+      { 'j-hui/fidget.nvim',       opts = {} },
+
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
+  },
+
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = {
+          auto_trigger = true,
+          keymap = {
+            accept = "<M-Tab>",
+            next = "<M-n>",
+            prev = "<M-p>"
+          },
+        },
+      })
+    end,
+  },
+
+  {
+    'goolord/alpha-nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = function()
+      require("alpha.term")
+      vim.cmd [[ highlight MyLogoHighlight guifg=#FFB6C1 ]]
+      local dashboard = require("alpha.themes.dashboard")
+      --       local logo = [[
+      --                                              
+      --       ████ ██████           █████      ██
+      --      ███████████             █████ 
+      --      █████████ ███████████████████ ███   ███████████
+      --     █████████  ███    █████████████ █████ ██████████████
+      --    █████████ ██████████ █████████ █████ █████ ████ █████
+      --  ███████████ ███    ███ █████████ █████ █████ ████ █████
+      -- ██████  █████████████████████ ████ █████ █████ ████ ██████
+      -- ]]
+      --
+      local logo = [[
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠞⢳⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡔⠋⠀⢰⠎⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⢆⣤⡞⠃⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⢠⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢀⣀⣾⢳⠀⠀⠀⠀⢸⢠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⣀⡤⠴⠊⠉⠀⠀⠈⠳⡀⠀⠀⠘⢎⠢⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀
+⠳⣄⠀⠀⡠⡤⡀⠀⠘⣇⡀⠀⠀⠀⠉⠓⠒⠺⠭⢵⣦⡀⠀⠀⠀
+⠀⢹⡆⠀⢷⡇⠁⠀⠀⣸⠇⠀⠀⠀⠀⠀⢠⢤⠀⠀⠘⢷⣆⡀⠀
+⠀⠀⠘⠒⢤⡄⠖⢾⣭⣤⣄⠀⡔⢢⠀⡀⠎⣸⠀⠀⠀⠀⠹⣿⡀
+⠀⠀⢀⡤⠜⠃⠀⠀⠘⠛⣿⢸⠀⡼⢠⠃⣤⡟⠀⠀⠀⠀⠀⣿⡇
+⠀⠀⠸⠶⠖⢏⠀⠀⢀⡤⠤⠇⣴⠏⡾⢱⡏⠁⠀⠀⠀⠀⢠⣿⠃
+⠀⠀⠀⠀⠀⠈⣇⡀⠿⠀⠀⠀⡽⣰⢶⡼⠇⠀⠀⠀⠀⣠⣿⠟⠀
+⠀⠀⠀⠀⠀⠀⠈⠳⢤⣀⡶⠤⣷⣅⡀⠀⠀⠀⣀⡠⢔⠕⠁⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠫⠿⠿⠿⠛⠋⠁⠀⠀⠀⠀
+]]
+      dashboard.section.header.val = vim.split(logo, "\n")
+      dashboard.section.buttons.val = {
+        dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
+        dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
+        dashboard.button('n', " " .. ' New file', ':ene <BAR> startinsert <CR>'),
+        dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
+        dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load() <cr>]]),
+        dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
+        dashboard.button("c", "󰒲 " .. " Config", ":e $MYVIMRC <CR>"),
+        dashboard.button("q", "󰒲 " .. " Quit", ":qa<CR>"),
+      }
+      dashboard.section.header.opts.hl = "MyLogoHighlight"
+      dashboard.opts.layout[1].val = 2
+      return dashboard
+    end,
+    config = function(_, dashboard)
+      require("alpha").setup(dashboard.opts)
+      vim.api.nvim_create_autocmd("User", {
+        callback = function()
+          local stats = require("lazy").stats()
+          local ms = math.floor(stats.startuptime * 100) / 100
+          dashboard.section.footer.val = " Lazy-loaded "
+              .. stats.loaded
+              .. "/"
+              .. stats.count
+              .. " plugins in "
+              .. ms
+              .. "ms"
+          pcall(vim.cmd.AlphaRedraw)
+        end,
+      })
+    end,
   },
 
   {
@@ -155,7 +264,40 @@ require('lazy').setup({
   },
 
   {
-   'sainnhe/sonokai',
+    "debugloop/telescope-undo.nvim",
+    dependencies = {
+      {
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+      },
+    },
+    keys = {
+      {
+        "<leader>u",
+        "<cmd>Telescope undo<cr>",
+        desc = "undo history",
+      },
+    },
+    opts = {
+      -- don't use `defaults = { }` here, do this in the main telescope spec
+      extensions = {
+        undo = {
+          -- telescope-undo.nvim config, see below
+        },
+        -- no other extensions here, they can have their own spec too
+      },
+    },
+    config = function(_, opts)
+      -- Calling telescope's setup from multiple specs does not hurt, it will happily merge the
+      -- configs for us. We won't use data, as everything is in it's own namespace (telescope
+      -- defaults, as well as each extension).
+      require("telescope").setup(opts)
+      require("telescope").load_extension("undo")
+    end,
+  },
+
+  {
+    'sainnhe/sonokai',
     priority = 1000,
     config = function()
       vim.cmd.colorscheme 'sonokai'
@@ -283,6 +425,23 @@ vim.o.scrolloff = 9
 
 -- [[ Basic Keymaps ]]
 
+vim.keymap.set("", "<Leader>l", ToggleLspLines, { desc = "Toggle lsp_lines" })
+
+-- Keep cursor centered while paging up and down
+vim.keymap.set("n", "<C-d", "<C-d>zz")
+vim.keymap.set("n", "<C-u", "<C-u>zz")
+vim.keymap.set("n", "<C-b", "<C-b>zz")
+vim.keymap.set("n", "<C-f", "<C-f>zz")
+
+-- Maximize current split vertically and horizontally
+vim.keymap.set("n", "<leader>m", "<c-w>_<c-w>|")
+
+-- Make splits equal dimensions
+vim.keymap.set("n", "<leader>=", "<c-w>=")
+
+-- Quicker goto definition in split
+vim.keymap.set("n", "<leader>gd", "<c-w>]")
+
 -- Allow pasting over a word without losing the current word
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
@@ -307,7 +466,7 @@ vim.keymap.set("n", "Y", "y$")
 vim.keymap.set("n", "J", "mzJ`z")
 
 -- Undo tree toggle
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = 'Toggle undo tree plugin' })
+--vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = 'Toggle undo tree plugin' })
 
 -- Make switching between vim panes easier
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = 'Go to left pane' })
@@ -389,6 +548,7 @@ local function live_grep_git_root()
     }
   end
 end
+
 
 vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
@@ -518,7 +678,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
---  nmap('<leader>k', vim.lsp.buf.signature_help, 'Signature Documentation')
+  --  nmap('<leader>k', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -645,4 +805,3 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
-
